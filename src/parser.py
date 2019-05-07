@@ -44,9 +44,9 @@ class parser:
         key = line[:8] + line[8:10] + line[10:18]
         return key
 
-    def run(self):
+    def run(self, output_fp=None):
         self.iterate()
-        self.save_results()
+        self.save_results(output_fp=output_fp)
 
     def iterate(self):
         # Iterate through each line
@@ -70,7 +70,9 @@ class parser:
                 else:
                     raise NotImplemented('Rec-Typ %s not recognized' %line[19])
 
-    def save_results(self):
+    def save_results(self, output_fp=None):
+        if output_fp is None:
+            output_fp = 'Cleaned_Output.csv'
         # Save results to csv
         res = []
         print("Parcel Count: ", len(self.parcel_objs))
@@ -80,7 +82,7 @@ class parser:
                 res.append(i)
 
         df = pd.DataFrame(res)
-        df.to_csv('Cleaned_Output.csv')
+        df.to_csv(output_fp, index=False)
 
 if __name__=='__main__':
     p = parser()
